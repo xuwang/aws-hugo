@@ -19,12 +19,6 @@ resource "aws_iam_role" "lambda_role" {
 EOF
 }
 
-resource "aws_iam_policy_attachment" "hugo_lambda_attach" {
-    name = "${var.prefix}-lambda-policy-attachment"
-    roles = ["${aws_iam_role.lambda_role.name}"]
-    policy_arn = "${aws_iam_policy.lambda_policy.arn}"
-}
-
 resource "aws_iam_role_policy" "lambda_policy" {
     name = "${var.prefix}-lambda-role-policy"
     role = "${aws_iam_role.lambda_role.id}"
