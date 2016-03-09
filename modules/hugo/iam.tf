@@ -30,11 +30,11 @@ resource "aws_iam_policy_attachment" "hugo_lambda_attach" {
 resource "aws_iam_role_policy" "lambda_policy" {
     name = "${var.prefix}-lambda-role-policy"
     role = "${aws_iam_role.lambda_role.id}"
-    policy = "${template_file.lamba_policy.rendered}"
+    policy = "${template_file.lambda_policy.rendered}"
 }
 
 # Prepare lambda role policy 
-resource "template_file" "lamba_policy" {
+resource "template_file" "lambda_policy" {
     template = "${file("${var.lambda_role_policy_tmpl})}"
     vars {
         "source_bucket_name" = "${var.prefix}-source"
