@@ -17,81 +17,9 @@ variable "www_fqdn" {
 
 # www bucket policy template, $${bucket_name} should be supplied by caller.
 variable "html_policy_tmpl" {
-    default = <<EOT
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "PublicReadGetObject",
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": [
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::$${bucket_name}/*"
-            ]
-        }
-    ]
-}
-EOT
+    default = "artifacts/policy/html-bucket-policy.tmpl"
 }
 
 variable "lambda_role_policy_tmpl" {
-    default = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListAllMyBuckets"
-            ],
-            "Resource": [
-                "arn:aws:s3:::*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::$${source_bucket_name}"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::$${source_bucket_name}/*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::$${html_bucket_name}"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:DeleteObject",
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:GetObjectAcl",
-                "s3:PutObjectAcl"
-            ],
-            "Resource": [
-                "arn:aws:s3:::$${html_bucket_name}/*"
-            ]
-        }
-    ]
-}
-EOF
+    default = "artifacts/policy/lambda-role-policy.tmpl"
 }

@@ -47,7 +47,7 @@ resource "aws_s3_bucket" "html" {
 
 # prepare static site bucket policy 
 resource "template_file" "html_policy" {
-    template = "${var.html_policy_tmpl}"
+    template = "${file("${var.html_policy_tmpl})}"
     vars {
         "bucket_name" = "${var.prefix}-html.com"
     }

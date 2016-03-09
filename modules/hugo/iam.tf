@@ -35,7 +35,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
 
 # Prepare lambda role policy 
 resource "template_file" "lamba_policy" {
-    template = "${var.lambda_role_policy_tmpl}"
+    template = "${file("${var.lambda_role_policy_tmpl})}"
     vars {
         "source_bucket_name" = "${var.prefix}-source"
         "html_bucket_name" = "${var.prefix}-html.com"
