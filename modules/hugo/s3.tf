@@ -55,10 +55,10 @@ resource "template_file" "html_policy" {
 
 # output the static html endpoint and domain
 output "html_endpoint" {
-    value = "${var.aws_s3_bucket.html.website_endpoint}"
+    value = "${aws_s3_bucket.html.website_endpoint}"
 }
 output "html_domain" {
-    value = "${var.aws_s3_bucket.html.website_domain}"
+    value = "${aws_s3_bucket.html.website_domain}"
 }
 
 # your FQFD www bucket, that redirect to static html site
@@ -76,10 +76,10 @@ resource "aws_s3_bucket" "www" {
 
 # output the www site endpoint and domain
 output "web_endpoint" {
-    value = "${var.aws_s3_bucket.www.website_endpoint}"
+    value = "${aws_s3_bucket.www.website_endpoint}"
 }
 output "web_domain" {
-    value = "${var.aws_s3_bucket.www.website_domain}"
+    value = "${aws_s3_bucket.www.website_domain}"
 }
 
 # bucket for logging
