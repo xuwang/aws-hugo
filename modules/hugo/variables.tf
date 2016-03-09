@@ -15,7 +15,7 @@ variable "www_fqdn" {
     default = "www.example.com"
 }
 
-# www bucket policy template, ${bucket_name} should be supplied by caller.
+# www bucket policy template, $${bucket_name} should be supplied by caller.
 variable "html_policy_tmpl" {
     default = <<EOT
 {
@@ -29,7 +29,7 @@ variable "html_policy_tmpl" {
                 "s3:GetObject"
             ],
             "Resource": [
-                "arn:aws:s3:::${bucket_name}/*"
+                "arn:aws:s3:::$${bucket_name}/*"
             ]
         }
     ]
@@ -57,7 +57,7 @@ variable "lambda_role_policy_tmpl" {
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::${source_bucket_name}"
+                "arn:aws:s3:::$${source_bucket_name}"
             ]
         },
         {
@@ -66,7 +66,7 @@ variable "lambda_role_policy_tmpl" {
                 "s3:GetObject"
             ],
             "Resource": [
-                "arn:aws:s3:::${source_bucket_name}/*"
+                "arn:aws:s3:::$${source_bucket_name}/*"
             ]
         },
         {
@@ -75,7 +75,7 @@ variable "lambda_role_policy_tmpl" {
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::${html_bucket_name}"
+                "arn:aws:s3:::$${html_bucket_name}"
             ]
         },
         {
@@ -88,7 +88,7 @@ variable "lambda_role_policy_tmpl" {
                 "s3:PutObjectAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::${html_bucket_name}/*"
+                "arn:aws:s3:::$${html_bucket_name}/*"
             ]
         }
     ]
