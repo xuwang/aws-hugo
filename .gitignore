@@ -1,0 +1,8 @@
+.tfstatus
+.backup
+*.pem
+*.key
+.DS_Store
+.git
+.terraform
+.vagrant
