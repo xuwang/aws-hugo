@@ -8,5 +8,5 @@ varialbe "hogo_site" {
     # your static site FQDN
     fqdn = "<www.yourwebsite.com>"
     # bucket prefix to make sure your s3 bucket names are globally unique, e.g. your aws account id.
-    bucket_prefix = "<globally_unique_prefix>"
+    prefix = "<globally_unique_prefix>"
 }

@@ -6,7 +6,7 @@
 # prefix for all hugo site buckets
 # s3 bucket requires gloable unique bucket name, make sure set a prefix bucket 
 # to make the bucket name unique
-variable "bucket_prefix" {
+variable "prefix" {
     default = "hugo"
 }
 
@@ -35,4 +35,63 @@ variable "html_policy_tmpl" {
     ]
 }
 EOT
+}
+
+variable "lambda_role_policy_tmpl" {
+    default = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListAllMyBuckets"
+            ],
+            "Resource": [
+                "arn:aws:s3:::*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${source_bucket_name}"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${source_bucket_name}/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${html_bucket_name}"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:DeleteObject",
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:GetObjectAcl",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${html_bucket_name}/*"
+            ]
+        }
+    ]
+}
+EOF
 }

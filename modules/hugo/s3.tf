@@ -5,7 +5,7 @@
 
 # bucket for hugo content source files
 resource "aws_s3_bucket" "source" {
-    bucket = "${var.bucket_prefix}-source"
+    bucket = "${var.prefix}-source"
     acl = "private"
     force_destroy = true
 
@@ -15,33 +15,33 @@ resource "aws_s3_bucket" "source" {
 
     logging {
         target_bucket = "${aws_s3_bucket.log.id}"
-        target_prefix = "log/source/"
+        target_prefix = "log/${var.prefix}-source/"
     }
 
     tags {
-        Name = "${var.bucket_prefix}-source"
+        Name = "${var.prefix}-source"
     }
 }
 
 # your static web site domain bucket
 resource "aws_s3_bucket" "html" {
-    bucket = "${var.bucket_prefix}.com"
+    bucket = "${var.prefix}-html.com"
 
     acl = "public-read"
     policy = "${template_file.html_policy.rendered}"
 
     website {
         index_document = "index.html"
-        error_document = "error.html"
+        error_document = "404.html"
     }
 
     logging {
         target_bucket = "${aws_s3_bucket.log.id}"
-        target_prefix = "log/html"
+        target_prefix = "log/${var.prefix}-html/"
     }
 
     tags {
-        Name = "${var.bucket_prefix}-www"
+        Name = "${var.prefix}-html.com"
     }
 }
 
@@ -49,7 +49,7 @@ resource "aws_s3_bucket" "html" {
 resource "template_file" "html_policy" {
     template = "${var.html_policy_tmpl}"
     vars {
-        "bucket_name" = "${var.bucket_prefix}.com"
+        "bucket_name" = "${var.prefix}-html.com"
     }
 }
 
@@ -66,7 +66,7 @@ resource "aws_s3_bucket" "www" {
     bucket = "${var.www_fqdn}"
 
     website {
-        redirect_all_requests_to = "${var.bucket_prefix}.com"
+        redirect_all_requests_to = "${var.prefix}-html.com"
     }
 
     tags {
@@ -84,7 +84,7 @@ output "web_domain" {
 
 # bucket for logging
 resource "aws_s3_bucket" "log" {
-   bucket = "${var.bucket_prefix}_log"
+   bucket = "${var.prefix}_log"
    acl = "log-delivery-write"
 }
 
