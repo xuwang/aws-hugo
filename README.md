@@ -53,6 +53,7 @@ And apply terraforms:
 
 ```
 $ cd terraforms
+$ terraform get
 $ terraform apply
 ...
 ```
