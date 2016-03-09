@@ -1,5 +1,4 @@
 # Setup a role and role policy for lambda
-
 resource "aws_iam_role" "lambda_role" {
     name = "${var.prefix}-lambda-role"
     assume_role_policy = <<EOF
@@ -19,13 +18,22 @@ resource "aws_iam_role" "lambda_role" {
 EOF
 }
 
+# Attach AWS managed policy
+# Provides write permissions to CloudWatch Logs
+resource "aws_iam_policy_attachment" "hugo_lambda_attach" {
+    name = "${var.prefix}-lambda-policy-attachment"
+    roles = ["${aws_iam_role.lambda_role.name}"]
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+# Inline policy for permissions to access resources
 resource "aws_iam_role_policy" "lambda_policy" {
     name = "${var.prefix}-lambda-role-policy"
     role = "${aws_iam_role.lambda_role.id}"
     policy = "${template_file.lamba_policy.rendered}"
 }
 
-# prepare lambda role policy 
+# Prepare lambda role policy 
 resource "template_file" "lamba_policy" {
     template = "${var.lambda_role_policy_tmpl}"
     vars {
