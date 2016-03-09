@@ -4,7 +4,7 @@ provider "aws" {
   region = "<your_aws_region>"
 }
 
-varialbe "hugo_site" {
+variable "hugo_site" {
     # your static site FQDN
     fqdn = "<www.yourwebsite.com>"
     # bucket prefix to make sure your s3 bucket names are globally unique, e.g. your aws account id.
