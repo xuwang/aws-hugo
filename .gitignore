@@ -6,3 +6,4 @@
 .git
 .terraform
 .vagrant
+provider.tf
