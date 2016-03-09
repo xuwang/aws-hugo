@@ -23,3 +23,8 @@ variable "html_policy_tmpl" {
 variable "lambda_role_policy_tmpl" {
     default = "artifacts/policies/lambda-role-policy.tmpl"
 }
+
+variable "lambda_function_tar_url" {
+    # See section 5 of http://bezdelev.com/post/hugo-aws-lambda-static-website/
+    default = "https://drive.google.com/uc?export=download&id=0ByJc_EZ6U7G8NFE5QmV3UzcwcWs"
+}

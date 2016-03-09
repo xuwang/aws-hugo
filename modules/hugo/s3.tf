@@ -84,7 +84,7 @@ output "web_domain" {
 
 # bucket for logging
 resource "aws_s3_bucket" "log" {
-   bucket = "${var.prefix}_log"
+   bucket = "${var.prefix}-log"
    acl = "log-delivery-write"
 }
 
