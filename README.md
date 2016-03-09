@@ -47,6 +47,10 @@ $ cd aws-hugo
 
 #### To build:
 
+First, edit `terraforms/provider.tf` to set up aws credentials and other necessary parameters for your hugo site.
+
+And apply terraforms:
+
 ```
 $ cd terraforms
 $ terraform apply

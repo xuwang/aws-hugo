@@ -1,4 +1,7 @@
-module "s3" {
-    source = "../modules/s3"
-    bucket_prefix="${var.aws_account.id}-${var.cluster_name}"
+# Call hugo module
+
+module "hugo" {
+    source = "../modules/hugo"
+    bucket_prefix="${var.hogo_site.bucket_prefix}"
+    www_fqdn="${var.hogo_site.fqdn"}
 }
