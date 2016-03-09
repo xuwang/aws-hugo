@@ -17,9 +17,9 @@ variable "www_fqdn" {
 
 # www bucket policy template, $${bucket_name} should be supplied by caller.
 variable "html_policy_tmpl" {
-    default = "artifacts/policy/html-bucket-policy.tmpl"
+    default = "artifacts/policies/html-bucket-policy.tmpl"
 }
 
 variable "lambda_role_policy_tmpl" {
-    default = "artifacts/policy/lambda-role-policy.tmpl"
+    default = "artifacts/policies/lambda-role-policy.tmpl"
 }
