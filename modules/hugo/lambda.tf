@@ -10,22 +10,26 @@ resource "aws_lambda_function" "hugo_lambda" {
     memory_size = 128
     timeout = 30
 
-    # Set up lambda s3 triggers. 
-    # Terraform has yet to add this, but for now we have to use awscli to accomplish it
+}
+
+# Set up lambda s3 triggers. 
+# Terraform has yet to add this, but for now we have to use awscli to accomplish it
+resource "null_resource" "lambda_download" {
+
+    triggers {
+        lambda_function_tar_url = "${var.lambda_function_tar_url}"
+        hugo_lambda_arn = "${aws_lambda_function.hugo_lambda.arn}"
+        s3_bucket_input_id = "${aws_s3_bucket.input.id}"
+    }
+
     provisioner "local-exec" {
         command = <<EOT
 aws s3api put-bucket-notification-configuration \
     --bucket "${aws_s3_bucket.input.id}" \
     --notification-configuration \
-'{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "${aws_lambda_function.hugo_lambda.arn}", "Events": ["s3:ObjectCreated:*"], "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "targets"}]}}}]}'
-
-aws s3api put-bucket-notification-configuration \
-    --bucket "${aws_s3_bucket.input.id}" \
-    --notification-configuration \
-'{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "${aws_lambda_function.hugo_lambda.arn}", "Events": ["s3:Object Removed:*"], "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "targets"}]}}}]}'
+'{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "${aws_lambda_function.hugo_lambda.arn}", "Events": ["s3:ObjectCreated:*", "s3:Object Removed:*"]}]}'
 EOT
     }
-
 }
 
 output "hugo_lambda_arn" { value = "${aws_lambda_function.hugo_lambda.arn}" }

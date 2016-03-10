@@ -40,6 +40,10 @@ output "html_endpoint" {
 output "html_domain" {
     value = "${aws_s3_bucket.html.website_domain}"
 }
+output "html_bucket_id" {
+    value = "${aws_s3_bucket.html.id}"
+}
+
 
 # Bucket for hugo content input files, i.e. the hugo lambda source bucket
 # Note the input bucket name must be "input.<static_html_bucket_name>"
@@ -81,11 +85,14 @@ resource "aws_s3_bucket" "www" {
 }
 
 # output the www site endpoint and domain
-output "web_endpoint" {
+output "www_endpoint" {
     value = "${aws_s3_bucket.www.website_endpoint}"
 }
-output "web_domain" {
+output "www_domain" {
     value = "${aws_s3_bucket.www.website_domain}"
+}
+output "www_bucket_id" {
+    value = "${aws_s3_bucket.www.id}"
 }
 
 # bucket for logging
