@@ -6,9 +6,7 @@
 # prefix for all hugo site buckets
 # s3 bucket requires gloable unique bucket name, make sure set a prefix bucket 
 # to make the bucket name unique
-variable "prefix" {
-    default = "hugo"
-}
+variable "prefix" { }
 
 # web site FQDN
 variable "www_fqdn" {

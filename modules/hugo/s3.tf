@@ -5,7 +5,7 @@
 
 # The static web site bucket, i.e. hugo lambda function destination bucket
 resource "aws_s3_bucket" "html" {
-    bucket = "${var.prefix}.com"
+    bucket = "${var.prefix}"
 
     acl = "public-read"
     policy = "${template_file.html_policy.rendered}"
@@ -17,11 +17,11 @@ resource "aws_s3_bucket" "html" {
 
     logging {
         target_bucket = "${aws_s3_bucket.log.id}"
-        target_prefix = "log/${var.prefix}.com/"
+        target_prefix = "log/${var.prefix}/"
     }
 
     tags {
-        Name = "${var.prefix}.com"
+        Name = "${var.prefix}"
     }
 }
 
@@ -29,7 +29,7 @@ resource "aws_s3_bucket" "html" {
 resource "template_file" "html_policy" {
     template = "${file("${var.html_policy_tmpl}")}"
     vars {
-        "bucket_name" = "${var.prefix}.com"
+        "bucket_name" = "${var.prefix}"
     }
 }
 
@@ -72,7 +72,7 @@ resource "aws_s3_bucket" "www" {
     bucket = "${var.www_fqdn}"
 
     website {
-        redirect_all_requests_to = "${var.prefix}.com"
+        redirect_all_requests_to = "${aws_s3_bucket.html.website_endpoint}"
     }
 
     tags {
