@@ -48,5 +48,5 @@ resource "aws_lambda_permission" "allow_s3" {
     action = "lambda:InvokeFunction"
     function_name = "${aws_lambda_function.hugo_lambda.arn}"
     principal = "s3.amazonaws.com"
-    source_arn = "${aws_lambda_function.hugo_labda.arn}"
+    source_arn = "${aws_lambda_function.hugo_lambda.arn}"
 }

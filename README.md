@@ -26,8 +26,9 @@ Instructions for install tools on MacOS:
     ```
     $ mkdir -p ~/bin/terraform
     $ cd ~/bin/terraform
-    $ curl -L -O https://dl.bintray.com/mitchellh/terraform/terraform_0.6.0_darwin_amd64.zip
-    $ unzip terraform_0.6.0_darwin_amd64.zip
+    $
+    $ curl -L -O https://releases.hashicorp.com/terraform/0.6.12/terraform_0.6.12_darwin_amd64.zip
+    $ unzip terraform_0.6.12_darwin_amd64.zip
     ```
 
 ## Clone the repo:
@@ -62,4 +63,29 @@ And apply terraforms:
 $ terraform get
 $ terraform apply
 ...
+```
+
+### To test
+
+* Upload hugo page content to the input bucket
+* Go to AWS Lambda console to run "Configure & Test"
+
+### To destroy
+
+```
+$ cd terraform
+$ terraform destroy
+```
+Note: as of this writting, you will get the following errors:
+
+```
+* aws_iam_role.lambda_role: Error deleting IAM Role...: DeleteConflict: Cannot delete entity, must detach all policies first.
+	status code: 409, request id: 71c5feea-e688-11e5-a9a8-958f1eb280a9
+* aws_s3_bucket.log: Error deleting S3 Bucket: BucketNotEmpty: The bucket you tried to delete is not empty
+	status code: 409, request id: 9F923D99C0985315
+```
+You should manaually detache lambda policy from hugo-lambda role and remove sub folders in hugo hugo-log bucket. Then re-run:
+
+```
+$ terraform destroy
 ```
