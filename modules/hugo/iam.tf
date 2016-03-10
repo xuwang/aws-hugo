@@ -7,7 +7,7 @@ resource "aws_iam_user" "hugo_user" {
 resource "aws_iam_user_policy" "hugo_user" {
     name = "${aws_iam_user.hugo_user.name}-policy}"
     user = "${aws_iam_user.hugo_user.name}"
-    policy = "${template_file.user_policy.rended}"
+    policy = "${template_file.user_policy.rendered}"
 }
 
 resource "template_file" "user_policy" {
