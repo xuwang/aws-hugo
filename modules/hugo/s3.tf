@@ -23,6 +23,10 @@ resource "aws_s3_bucket" "source" {
     }
 }
 
+output "source_bucket_id" {
+    value = "${aws_s3_bucket.source.id}"
+}
+
 # your static web site domain bucket
 resource "aws_s3_bucket" "html" {
     bucket = "${var.prefix}-html.com"

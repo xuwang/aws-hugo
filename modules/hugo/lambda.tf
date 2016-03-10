@@ -9,7 +9,26 @@ resource "aws_lambda_function" "hugo_lambda" {
     runtime = "nodejs"
     memory_size = 128
     timeout = 30
+
+    # Set up lambda s3 triggers. 
+    # Terraform has yet to add this, but for now we have to use awscli to accomplish it
+    provisioner "local-exec" {
+        command = <<EOT
+aws s3api put-bucket-notification-configuration \
+    --bucket "${aws_s3_bucket.source.id}" \
+    --notification-configuration \
+'{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "${aws_lambda_function.hugo_lambda.source.arn}", "Events": ["s3:ObjectCreated:*"], "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "targets"}]}}}]}'
+
+aws s3api put-bucket-notification-configuration \
+    --bucket "${aws_s3_bucket.source.id}" \
+    --notification-configuration \
+'{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "${aws_lambda_function.hugo_lambda.source.arn}", "Events": ["s3:Object Removed:*"], "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "targets"}]}}}]}'
+EOT
+    }
+
 }
+
+output "hugo_lambda_arn" { value = "${aws_lambda_function.hugo_lambda.arn}" }
 
 # Download hugo lambda function
 resource "null_resource" "lambda_download" {
@@ -23,10 +42,11 @@ resource "null_resource" "lambda_download" {
     }
 }
 
-# Not sure about event_source_arn is ok
-resource "aws_lambda_event_source_mapping" "event_source_mapping" {
-    event_source_arn = "${aws_lambda_function.hugo_labda.arn}"
-    function_name = "${aws_lambda_function.hugo_labda.arn}"
-    enabled = true
-    starting_position = "TRIM_HORIZON|LATEST"
+# Give s3 permistions to triger lambda
+resource "aws_lambda_permission" "allow_s3" {
+    statement_id = "${var.prefix}-allow-s3-trigger"
+    action = "lambda:InvokeFunction"
+    function_name = "${aws_lambda_function.hugo_lambda.arn}"
+    principal = "s3.amazonaws.com"
+    source_arn = "${aws_lambda_function.hugo_labda.arn}"
 }
