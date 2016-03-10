@@ -1,3 +1,5 @@
+
+# setup topics for github updates
 resource "aws_sns_topic" "user_updates" {
   name = "${var.prefix}-updates-topic"
 }

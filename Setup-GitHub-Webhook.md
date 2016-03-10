@@ -16,3 +16,8 @@
 	```
 
 1. “Add service”.
+
+
+## ToDo
+### Write lambda function that pull source from git repo instead of s3 bucket.
+### Remove and cleanup the useage of s3 input bucket.

@@ -12,26 +12,6 @@ resource "aws_lambda_function" "hugo_lambda" {
 
 }
 
-# Set up lambda s3 triggers. 
-# Terraform has yet to add this, but for now we have to use awscli to accomplish it
-resource "null_resource" "lambda_triggers" {
-
-    triggers {
-        lambda_function_tar_url = "${var.lambda_function_tar_url}"
-        hugo_lambda_arn = "${aws_lambda_function.hugo_lambda.arn}"
-        s3_bucket_input_id = "${aws_s3_bucket.input.id}"
-    }
-
-    provisioner "local-exec" {
-        command = <<EOT
-aws s3api put-bucket-notification-configuration \
-    --bucket "${aws_s3_bucket.input.id}" \
-    --notification-configuration \
-'{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "${aws_lambda_function.hugo_lambda.arn}", "Events": ["s3:ObjectCreated:*", "s3:Object Removed:*"]}]}'
-EOT
-    }
-}
-
 output "hugo_lambda_arn" { value = "${aws_lambda_function.hugo_lambda.arn}" }
 
 # Download hugo lambda function
@@ -46,11 +26,9 @@ resource "null_resource" "lambda_download" {
     }
 }
 
-# Give s3 permistions to triger lambda
-resource "aws_lambda_permission" "allow_s3" {
-    statement_id = "${var.prefix}-allow-s3-trigger"
-    action = "lambda:InvokeFunction"
-    function_name = "${aws_lambda_function.hugo_lambda.arn}"
-    principal = "s3.amazonaws.com"
-    source_arn = "${aws_lambda_function.hugo_lambda.arn}"
+# subscribe github updates
+resource "aws_sns_topic_subscription" "user_updates_sqs_target" {
+    topic_arn = "${aws_sns_topic.user_updates.arn}"
+    protocol  = "lambda"
+    endpoint  = "${aws_lambda_function.hugo_lambda.arn}"
 }
