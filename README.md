@@ -1,5 +1,14 @@
 
-# Create HUGO static web site on AWS with [Terraform](https://www.terraform.io/intro/index.html)
+# Create Hugo static website generator on AWS Lambda with Terraform
+
+This project demonstrates how to use [Terraform](https://www.terraform.io/intro/index.html) to manage AWS resources needed to create Hugo static website using AWS Lambda service. 
+Resources managed are:
+
+* Source, destination and log buckets on AWS, bucket policies, static websites configuration
+* Lambda function, IAM role and policies
+* Lambda S3 trigger
+
+This tutorial uses content and ideas from a number of open source projects. See [Acknowledgements](#Acknowledgements) for details.
 
 ## Setup AWS credentials
 
@@ -89,3 +98,9 @@ You should manaually detache lambda policy from hugo-lambda role and remove sub 
 ```
 $ terraform destroy
 ```
+
+# Acknowledgements
+* [hugo-aws-lambda-static-website](http://bezdelev.com/post/hugo-aws-lambda-static-website/)
+* [Terraform](http://www.terraform.io/downloads.html)
+* [Hugo](gohugo.io)
+
