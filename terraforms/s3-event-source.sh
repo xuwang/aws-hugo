@@ -4,11 +4,11 @@
 
 
 aws s3api put-bucket-notification-configuration \
-        --bucket "`terraform output source_bucket_id`" \
+        --bucket "`terraform output input_bucket_id`" \
         --notification-configuration \
 '{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "'`terraform output hugo_lambda_arn`'", "Events": ["s3:ObjectCreated:*"], "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "targets"}]}}}]}'
 
 aws s3api put-bucket-notification-configuration \
-        --bucket "`terraform output source_bucket_id`" \
+        --bucket "`terraform output input_bucket_id`" \
         --notification-configuration \
 '{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "'`terraform output hugo_lambda_arn`'", "Events": ["s3:Object Removed:*"], "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "targets"}]}}}]}'

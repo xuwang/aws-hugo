@@ -42,8 +42,8 @@ resource "aws_iam_role_policy" "lambda_policy" {
 resource "template_file" "lambda_policy" {
     template = "${file("${var.lambda_role_policy_tmpl}")}"
     vars {
-        "source_bucket_name" = "${var.prefix}-source"
-        "html_bucket_name" = "${var.prefix}-html.com"
+        "input_bucket_name" = "${aws_s3_bucket.input.id}"
+        "html_bucket_name" = ${aws_s3_bucket.html.id}
     }
 }
 

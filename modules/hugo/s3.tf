@@ -1,35 +1,11 @@
 ############################################################
 #
-# Set up source, static html, www, and logging bucket for a Hugo site
+# Set up input, static html, www, and logging bucket for a Hugo site
 #
 
-# bucket for hugo content source files
-resource "aws_s3_bucket" "source" {
-    bucket = "${var.prefix}-source"
-    acl = "private"
-    force_destroy = true
-
-    versioning {
-        enabled = true
-    }
-
-    logging {
-        target_bucket = "${aws_s3_bucket.log.id}"
-        target_prefix = "log/${var.prefix}-source/"
-    }
-
-    tags {
-        Name = "${var.prefix}-source"
-    }
-}
-
-output "source_bucket_id" {
-    value = "${aws_s3_bucket.source.id}"
-}
-
-# your static web site domain bucket
+# The static web site bucket, i.e. hugo lambda function destination bucket
 resource "aws_s3_bucket" "html" {
-    bucket = "${var.prefix}-html.com"
+    bucket = "${var.prefix}.com"
 
     acl = "public-read"
     policy = "${template_file.html_policy.rendered}"
@@ -41,11 +17,11 @@ resource "aws_s3_bucket" "html" {
 
     logging {
         target_bucket = "${aws_s3_bucket.log.id}"
-        target_prefix = "log/${var.prefix}-html/"
+        target_prefix = "log/${var.prefix}.com/"
     }
 
     tags {
-        Name = "${var.prefix}-html.com"
+        Name = "${var.prefix}.com"
     }
 }
 
@@ -53,7 +29,7 @@ resource "aws_s3_bucket" "html" {
 resource "template_file" "html_policy" {
     template = "${file("${var.html_policy_tmpl}")}"
     vars {
-        "bucket_name" = "${var.prefix}-html.com"
+        "bucket_name" = "${var.prefix}.com"
     }
 }
 
@@ -65,12 +41,38 @@ output "html_domain" {
     value = "${aws_s3_bucket.html.website_domain}"
 }
 
+# Bucket for hugo content input files, i.e. the hugo lambda source bucket
+# Note the input bucket name must be "input.<static_html_bucket_name>"
+# otherwise the lambda code won't be able to find destination bucket
+resource "aws_s3_bucket" "input" {
+    bucket = "input.${aws_s3_bucket.html.id}"
+    acl = "private"
+    force_destroy = true
+
+    versioning {
+        enabled = true
+    }
+
+    logging {
+        target_bucket = "${aws_s3_bucket.log.id}"
+        target_prefix = "log/input.${aws_s3_bucket.html.id}/"
+    }
+
+    tags {
+        Name = "input.${aws_s3_bucket.html.id}"
+    }
+}
+
+output "input_bucket_id" {
+    value = "${aws_s3_bucket.input.id}"
+}
+
 # your FQFD www bucket, that redirect to static html site
 resource "aws_s3_bucket" "www" {
     bucket = "${var.www_fqdn}"
 
     website {
-        redirect_all_requests_to = "${var.prefix}-html.com"
+        redirect_all_requests_to = "${var.prefix}.com"
     }
 
     tags {
@@ -91,4 +93,5 @@ resource "aws_s3_bucket" "log" {
    bucket = "${var.prefix}-log"
    acl = "log-delivery-write"
 }
+
 

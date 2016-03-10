@@ -15,14 +15,14 @@ resource "aws_lambda_function" "hugo_lambda" {
     provisioner "local-exec" {
         command = <<EOT
 aws s3api put-bucket-notification-configuration \
-    --bucket "${aws_s3_bucket.source.id}" \
+    --bucket "${aws_s3_bucket.input.id}" \
     --notification-configuration \
-'{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "${aws_lambda_function.hugo_lambda.source.arn}", "Events": ["s3:ObjectCreated:*"], "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "targets"}]}}}]}'
+'{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "${aws_lambda_function.hugo_lambda.arn}", "Events": ["s3:ObjectCreated:*"], "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "targets"}]}}}]}'
 
 aws s3api put-bucket-notification-configuration \
-    --bucket "${aws_s3_bucket.source.id}" \
+    --bucket "${aws_s3_bucket.input.id}" \
     --notification-configuration \
-'{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "${aws_lambda_function.hugo_lambda.source.arn}", "Events": ["s3:Object Removed:*"], "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "targets"}]}}}]}'
+'{"LambdaFunctionConfigurations": [{"LambdaFunctionArn": "${aws_lambda_function.hugo_lambda.arn}", "Events": ["s3:Object Removed:*"], "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "targets"}]}}}]}'
 EOT
     }
 
