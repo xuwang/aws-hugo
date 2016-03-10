@@ -14,7 +14,7 @@ resource "aws_lambda_function" "hugo_lambda" {
 
 # Set up lambda s3 triggers. 
 # Terraform has yet to add this, but for now we have to use awscli to accomplish it
-resource "null_resource" "lambda_download" {
+resource "null_resource" "lambda_triggers" {
 
     triggers {
         lambda_function_tar_url = "${var.lambda_function_tar_url}"
