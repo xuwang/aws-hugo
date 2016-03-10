@@ -7,4 +7,4 @@ hugo_lambda_arn=$(terraform output -module=hugo hugo_lambda_arn)
 
 aws s3api put-bucket-notification-configuration \
         --bucket "$source_bucket_id" \
-        --notification-configuration <NotificationConfiguration/>
+        --notification-configuration '{}'
