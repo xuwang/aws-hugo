@@ -12,17 +12,17 @@ resource "aws_lambda_function" "hugo_lambda" {
 
 }
 
-output "hugo_lambda_arn" { value = "${aws_lambda_function.hugo_lambda.arn}" }
+#output "hugo_lambda_arn" { value = "${aws_lambda_function.hugo_lambda.arn}" } // timeout problem.
+output "hugo_lambda_name" { value = "${var.prefix}-lambda"}
 
 # Download hugo lambda function
 resource "null_resource" "lambda_download" {
-
     triggers {
         lambda_function_tar_url = "${var.lambda_function_tar_url}"
     }
 
     provisioner "local-exec" {
-        command = "curl -s -o artifacts/${var.prefix}-lambda-function.zip ${var.lambda_function_tar_url}"
+        command = "des=artifacts/${var.prefix}-lambda-function.zip; if [ ! -f $des]; then curl -s -o $des ${var.lambda_function_tar_url}; fi"
     }
 }
 
