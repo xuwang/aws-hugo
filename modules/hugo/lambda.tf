@@ -43,4 +43,3 @@ resource "aws_lambda_permission" "allow_s3" {
     source_arn = "${aws_lambda_function.hugo_lambda.arn}"
 }
 */
->>>>>>> master

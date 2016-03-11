@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # hugo user for sns update etc.
 resource "aws_iam_user" "hugo_user" {
     name = "${var.prefix}-hugo-user}"
