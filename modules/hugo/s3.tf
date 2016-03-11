@@ -30,7 +30,7 @@ resource "aws_s3_bucket" "html" {
 resource "template_file" "html_policy" {
     template = "${file("${var.html_policy_tmpl}")}"
     vars {
-        "bucket_name" = "${var.root_domain}"
+        bucket_name = "${var.root_domain}"
     }
 }
 
