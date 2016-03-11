@@ -1,11 +1,24 @@
-#!/bin/evn bash
+#!/usr/bin/env bash
 
 # Terraform has yet to add this, but for now we have to use awscli to accomplish setting lambda s3 triggers
 
-source_bucket_id=$(terraform output -module=hugo source_bucket_id)
-hugo_lambda_arn=$(terraform output -module=hugo hugo_lambda_arn)
+input_bucket_id=$(terraform output -module=hugo input_bucket_id)
+hugo_lambda_name="$(terraform output -module=hugo hugo_lambda_name)"
+hugo_lambda_arn=$(aws --profile myhugo lambda  list-functions \
+    | jq -r ".Functions | .[] | select(.FunctionName==\"$hugo_lambda_name\") \
+    | .FunctionArn")
 
-aws s3api put-bucket-notification-configuration \
-        --bucket "$source_bucket_id" \
-        --notification-configuration '{"LambdaFunctionConfigurations": ' \
-'[{"LambdaFunctionArn": "$hugo_lambda_arn", "Events": ["s3:ObjectCreated:*", "s3:Object Removed:*"]}]}'
+read -r -d '' EVENT << EOF
+{
+    "LambdaFunctionConfigurations": [{
+        "LambdaFunctionArn": "$hugo_lambda_arn",
+        "Events": [
+            "s3:ObjectRemoved:*",
+            "s3:ObjectCreated:*"
+        ]
+    }]
+}
+EOF
+aws --profile myhugo s3api put-bucket-notification-configuration \
+        --bucket "$input_bucket_id" \
+        --notification-configuration "$EVENT"

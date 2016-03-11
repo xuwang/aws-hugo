@@ -2,6 +2,5 @@
 
 module "hugo" {
     source = "../modules/hugo"
-    prefix="${var.hugo_site.prefix}"
-    www_fqdn="${var.hugo_site.fqdn}"
+    root_domain="${var.hugo_site.root_domain}"
 }

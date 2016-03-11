@@ -6,9 +6,8 @@ provider "aws" {
 
 variable "hugo_site" {
     default = {
-        # your static site FQDN
-        fqdn = "<www.yourwebsite.com>"
-        # bucket prefix to make sure your s3 bucket names are globally unique, e.g. your aws account id.
-        prefix = "<globally_unique_prefix>
+        # root_domain for the hugo site
+        # the site FQDN will be www.${root_domain}
+        root_domain = "example.com"
     }
 }
