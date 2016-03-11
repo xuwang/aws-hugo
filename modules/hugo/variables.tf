@@ -3,17 +3,13 @@
 #   Module Arguments for HUGO site
 #
 
-# prefix for all hugo site buckets
-# s3 bucket requires gloable unique bucket name, make sure set a prefix bucket 
-# to make the bucket name unique
-variable "prefix" { }
-
-# web site FQDN
-variable "www_fqdn" {
-    default = "www.example.com"
+# root_domain for the hugo site
+# the site FQDN will be www.${root_domain}
+variable "root_domain" {
+    default = "example.com"
 }
 
-# www bucket policy template, ${bucket_name} should be supplied by caller.
+# html bucket policy template, ${bucket_name} should be supplied by caller.
 variable "html_policy_tmpl" {
     default = "artifacts/policies/html-bucket-policy.tmpl"
 }

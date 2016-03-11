@@ -5,7 +5,7 @@
 
 # The static web site bucket, i.e. hugo lambda function destination bucket
 resource "aws_s3_bucket" "html" {
-    bucket = "${var.prefix}"
+    bucket = "${var.root_domain}"
     force_destroy = true
 
     acl = "public-read"
@@ -18,11 +18,11 @@ resource "aws_s3_bucket" "html" {
 
     logging {
         target_bucket = "${aws_s3_bucket.log.id}"
-        target_prefix = "log/${var.prefix}/"
+        target_root_domain = "log/${var.root_domain}/"
     }
 
     tags {
-        Name = "${var.prefix}"
+        Name = "${var.root_domain}"
     }
 }
 
@@ -30,7 +30,7 @@ resource "aws_s3_bucket" "html" {
 resource "template_file" "html_policy" {
     template = "${file("${var.html_policy_tmpl}")}"
     vars {
-        "bucket_name" = "${var.prefix}"
+        "bucket_name" = "${var.root_domain}"
     }
 }
 
@@ -60,7 +60,7 @@ resource "aws_s3_bucket" "input" {
 
     logging {
         target_bucket = "${aws_s3_bucket.log.id}"
-        target_prefix = "log/input.${aws_s3_bucket.html.id}/"
+        target_root_domain = "log/input.${aws_s3_bucket.html.id}/"
     }
 
     tags {
@@ -74,7 +74,7 @@ output "input_bucket_id" {
 
 # your FQFD www bucket, that redirect to static html site
 resource "aws_s3_bucket" "www" {
-    bucket = "${var.www_fqdn}"
+    bucket = "www.${var.root_domain}"
     force_destroy = true
 
     website {
@@ -82,7 +82,7 @@ resource "aws_s3_bucket" "www" {
     }
 
     tags {
-        Name = "${var.www_fqdn}"
+        Name = "www.${var.root_domain}"
     }
 }
 
@@ -99,7 +99,7 @@ output "www_bucket_id" {
 
 # bucket for logging
 resource "aws_s3_bucket" "log" {
-    bucket = "${var.prefix}-log"
+    bucket = "${var.root_domain}-log"
     acl = "log-delivery-write"
     force_destroy = true
 }
