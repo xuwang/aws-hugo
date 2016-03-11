@@ -8,7 +8,7 @@ Resources managed are:
 * Lambda function, IAM role and policies
 * Lambda S3 trigger
 
-This tutorial uses content and ideas from a number of open source projects. See [Acknowledgements](#Acknowledgements) for details.
+This tutorial uses content and ideas from a number of open source projects. See [Acknowledgements](Acknowledgements) for details.
 
 ## Setup AWS credentials
 
@@ -73,6 +73,11 @@ $ terraform get
 $ terraform apply
 ...
 ```
+Install S3 event trigger - workaround until Terraform support this:
+
+```
+$ ./set-s3-trigger.sh
+```
 
 ### To test
 
@@ -83,19 +88,7 @@ $ terraform apply
 
 ```
 $ cd terraform
-$ terraform destroy
-```
-Note: as of this writting, you will get the following errors:
-
-```
-* aws_iam_role.lambda_role: Error deleting IAM Role...: DeleteConflict: Cannot delete entity, must detach all policies first.
-	status code: 409, request id: 71c5feea-e688-11e5-a9a8-958f1eb280a9
-* aws_s3_bucket.log: Error deleting S3 Bucket: BucketNotEmpty: The bucket you tried to delete is not empty
-	status code: 409, request id: 9F923D99C0985315
-```
-You should manaually detache lambda policy from hugo-lambda role and remove sub folders in hugo hugo-log bucket. Then re-run:
-
-```
+$ ./delete-s3-trigger.sh
 $ terraform destroy
 ```
 
