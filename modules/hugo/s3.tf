@@ -6,6 +6,7 @@
 # The static web site bucket, i.e. hugo lambda function destination bucket
 resource "aws_s3_bucket" "html" {
     bucket = "${var.prefix}"
+    force_destroy = true
 
     acl = "public-read"
     policy = "${template_file.html_policy.rendered}"
@@ -74,6 +75,7 @@ output "input_bucket_id" {
 # your FQFD www bucket, that redirect to static html site
 resource "aws_s3_bucket" "www" {
     bucket = "${var.www_fqdn}"
+    force_destroy = true
 
     website {
         redirect_all_requests_to = "${aws_s3_bucket.html.website_endpoint}"
@@ -97,8 +99,9 @@ output "www_bucket_id" {
 
 # bucket for logging
 resource "aws_s3_bucket" "log" {
-   bucket = "${var.prefix}-log"
-   acl = "log-delivery-write"
+    bucket = "${var.prefix}-log"
+    acl = "log-delivery-write"
+    force_destroy = true
 }
 
 
