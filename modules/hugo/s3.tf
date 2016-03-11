@@ -18,7 +18,7 @@ resource "aws_s3_bucket" "html" {
 
     logging {
         target_bucket = "${aws_s3_bucket.log.id}"
-        target_root_domain = "log/${var.root_domain}/"
+        target_prefix = "log/${var.root_domain}/"
     }
 
     tags {
@@ -60,7 +60,7 @@ resource "aws_s3_bucket" "input" {
 
     logging {
         target_bucket = "${aws_s3_bucket.log.id}"
-        target_root_domain = "log/input.${aws_s3_bucket.html.id}/"
+        target_prefix = "log/input.${aws_s3_bucket.html.id}/"
     }
 
     tags {

@@ -24,11 +24,12 @@ resource "aws_iam_policy_attachment" "hugo_lambda_attach" {
     name = "${var.root_domain}-lambda-policy-attachment"
     roles = ["${aws_iam_role.lambda_role.name}"]
     policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-
+/*
     # sleep for awhile for the policy to be attaced.
     provisioner "local-exec" {
         command = "sleep 10"
     }
+*/
 }
 
 # Inline policy for permissions to access resources
