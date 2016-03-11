@@ -8,7 +8,7 @@ Resources managed are:
 * Lambda function, IAM role and policies
 * Lambda S3 trigger
 
-This tutorial uses content and ideas from a number of open source projects. See [Acknowledgements](Acknowledgements) for details.
+This tutorial uses content and ideas from a number of open source projects. See [Acknowledgements](#Acknowledgements) for details.
 
 ## Setup AWS credentials
 
@@ -92,7 +92,7 @@ $ ./delete-s3-trigger.sh
 $ terraform destroy
 ```
 
-# Acknowledgements
+## <a name="Acknowledgement">Acknowledgements</a>
 * [hugo-aws-lambda-static-website](http://bezdelev.com/post/hugo-aws-lambda-static-website/)
 * [Terraform](http://www.terraform.io/downloads.html)
 * [Hugo](gohugo.io)
