@@ -22,17 +22,17 @@ resource "null_resource" "lambda_download" {
     }
 
     provisioner "local-exec" {
-        command = "des=artifacts/lambda.zip; if [ ! -f $des ]; then curl -s -o $des ${var.lambda_function_tar_url}; fi"
+        command = "des=artifacts/lambda.zip; if [ ! -f $des ]; then curl -L -s -o $des ${var.lambda_function_tar_url}; fi"
     }
 }
 
 # s3 bucket for lambda function
 resource "aws_s3_bucket" "lambda" {
-    bucket = "${var.root_domain}-lambda"
+    bucket = "lambda.${var.root_domain}"
     force_destroy = true   force_destroy = true
     acl = "private"
     tags {
-        Name = "${var.root_domain}-lambda"
+        Name = "lambda.${var.root_domain}"
     }
 }
 
