@@ -1,8 +1,13 @@
 # Lambda function to call hugo
 
 resource "aws_lambda_function" "hugo_lambda" {
+    /*
+    # Not working, see https://github.com/hashicorp/terraform/issues/4931
     s3_bucket = "${aws_s3_bucket.lambda.id}"
     s3_key = "${aws_s3_bucket_object.lambda.id}"
+    */
+    depends_on = ["null_resource.lambda_download"]
+    filename = "artifacts/lambda.zip"
     function_name = "hugo-lambda"
     role = "${aws_iam_role.lambda_role.arn}"
     handler = "RunHugo.handler"
@@ -27,6 +32,8 @@ resource "null_resource" "lambda_download" {
     }
 }
 
+/* 
+# Not working, see https://github.com/hashicorp/terraform/issues/4931
 # s3 bucket for lambda function
 resource "aws_s3_bucket" "lambda" {
     bucket = "lambda.${var.root_domain}"
@@ -43,3 +50,4 @@ resource "aws_s3_bucket_object" "lambda" {
     key = "lambda"
     source = "artifacts/lambda.zip"
 }
+*/
