@@ -32,15 +32,26 @@ resource "null_resource" "lambda_download" {
     }
 }
 
+/*
+# Give s3 permistions to triger lambda
+resource "aws_lambda_permission" "allow_s3" {
+    statement_id = "${var.root_domain}-allow-s3-trigger"
+    action = "lambda:InvokeFunction"
+    function_name = "${aws_lambda_function.hugo_lambda.arn}"
+    principal = "s3.amazonaws.com"
+    source_arn = "${aws_lambda_function.hugo_lambda.arn}"
+}
+*/
+
 /* 
 # Not working, see https://github.com/hashicorp/terraform/issues/4931
 # s3 bucket for lambda function
 resource "aws_s3_bucket" "lambda" {
-    bucket = "lambda.${var.root_domain}"
+    bucket = "lambda-${var.root_domain}"
     force_destroy = true
     acl = "private"
     tags {
-        Name = "lambda.${var.root_domain}"
+        Name = "lambda-${var.root_domain}"
     }
 }
 

@@ -68,7 +68,7 @@ output "html_bucket_id" {
 # Note the input bucket name must be "input.<static_html_bucket_name>"
 # otherwise the lambda code won't be able to find destination bucket
 resource "aws_s3_bucket" "input" {
-    bucket = "input.${aws_s3_bucket.html.id}"
+    bucket = "input-${aws_s3_bucket.html.id}"
     acl = "private"
     force_destroy = true
 
@@ -82,7 +82,7 @@ resource "aws_s3_bucket" "input" {
     }
 
     tags {
-        Name = "input.${aws_s3_bucket.html.id}"
+        Name = "input-${aws_s3_bucket.html.id}"
     }
 }
 
@@ -90,6 +90,7 @@ output "input_bucket_id" {
     value = "${aws_s3_bucket.input.id}"
 }
 
+/*
 # your FQFD www bucket, that redirect to static html site
 resource "aws_s3_bucket" "www" {
     bucket = "www.${var.root_domain}"
@@ -114,10 +115,11 @@ output "www_domain" {
 output "www_bucket_id" {
     value = "${aws_s3_bucket.www.id}"
 }
+*/
 
 # bucket for logging
 resource "aws_s3_bucket" "log" {
-    bucket = "${var.root_domain}-log"
+    bucket = "log-${var.root_domain}"
     acl = "log-delivery-write"
     force_destroy = true
 }
