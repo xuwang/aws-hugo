@@ -37,7 +37,7 @@ resource "null_resource" "lambda_download" {
 # s3 bucket for lambda function
 resource "aws_s3_bucket" "lambda" {
     bucket = "lambda.${var.root_domain}"
-    force_destroy = true   force_destroy = true
+    force_destroy = true
     acl = "private"
     tags {
         Name = "lambda.${var.root_domain}"
