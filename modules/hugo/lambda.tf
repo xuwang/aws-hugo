@@ -22,7 +22,7 @@ resource "null_resource" "lambda_download" {
     }
 
     provisioner "local-exec" {
-        command = "des=artifacts/${var.root_domain}-lambda-function.zip; if [ ! -f $des]; then curl -s -o $des ${var.lambda_function_tar_url}; fi"
+        command = "des=artifacts/${var.root_domain}-lambda-function.zip; if [ ! -f $des ]; then curl -s -o $des ${var.lambda_function_tar_url}; fi"
     }
 }
 /*
