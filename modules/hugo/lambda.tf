@@ -19,6 +19,7 @@ output "hugo_lambda_name" { value = "${var.root_domain}-lambda"}
 resource "null_resource" "lambda_download" {
     triggers {
         lambda_function_tar_url = "${var.lambda_function_tar_url}"
+        lambda_role = "${aws_iam_role.lambda_role.name}"
     }
 
     provisioner "local-exec" {
