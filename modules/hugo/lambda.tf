@@ -1,8 +1,8 @@
 # Lambda function to call hugo
 
 resource "aws_lambda_function" "hugo_lambda" {
-    depends_on = ["null_resource.lambda_download"]
-    filename = "artifacts/${var.root_domain}-lambda-function.zip"
+    s3_bucket = "${aws_s3_bucket.lambda.id}"
+    s3_keu = "${aws_s3_bucket_object.lambda.id}"
     function_name = "hugo-lambda"
     role = "${aws_iam_role.lambda_role.arn}"
     handler = "RunHugo.handler"
@@ -22,16 +22,23 @@ resource "null_resource" "lambda_download" {
     }
 
     provisioner "local-exec" {
-        command = "des=artifacts/${var.root_domain}-lambda-function.zip; if [ ! -f $des ]; then curl -s -o $des ${var.lambda_function_tar_url}; fi"
+        command = "des=artifacts/lambda.zip; if [ ! -f $des ]; then curl -s -o $des ${var.lambda_function_tar_url}; fi"
     }
 }
-/*
-# Give s3 permistions to triger lambda
-resource "aws_lambda_permission" "allow_s3" {
-    statement_id = "${var.root_domain}-allow-s3-trigger"
-    action = "lambda:InvokeFunction"
-    function_name = "${aws_lambda_function.hugo_lambda.arn}"
-    principal = "s3.amazonaws.com"
-    source_arn = "${aws_lambda_function.hugo_lambda.arn}"
+
+# s3 bucket for lambda function
+resource "aws_s3_bucket" "lambda" {
+    bucket = "${var.root_domain}-lambda"
+    force_destroy = true   force_destroy = true
+    acl = "private"
+    tags {
+        Name = "${var.root_domain}-lambda"
+    }
 }
-*/
+
+resource "aws_s3_bucket_object" "lambda" {
+    bucket = "${aws_s3_bucket.lambda.id}"
+    depends_on = ["null_resource.lambda_download"]
+    key = "lambda"
+    source = "artifacts/lambda.zip"
+}
