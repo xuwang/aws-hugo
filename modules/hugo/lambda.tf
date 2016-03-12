@@ -2,7 +2,7 @@
 
 resource "aws_lambda_function" "hugo_lambda" {
     s3_bucket = "${aws_s3_bucket.lambda.id}"
-    s3_keu = "${aws_s3_bucket_object.lambda.id}"
+    s3_key = "${aws_s3_bucket_object.lambda.id}"
     function_name = "hugo-lambda"
     role = "${aws_iam_role.lambda_role.arn}"
     handler = "RunHugo.handler"
