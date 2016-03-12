@@ -3,7 +3,7 @@
 resource "aws_lambda_function" "hugo_lambda" {
     depends_on = ["null_resource.lambda_download"]
     filename = "artifacts/${var.root_domain}-lambda-function.zip"
-    function_name = "${var.root_domain}-lambda"
+    function_name = "hugo-lambda"
     role = "${aws_iam_role.lambda_role.arn}"
     handler = "RunHugo.handler"
     runtime = "nodejs"
