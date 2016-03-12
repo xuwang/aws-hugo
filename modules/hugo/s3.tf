@@ -9,7 +9,25 @@ resource "aws_s3_bucket" "html" {
     force_destroy = true
 
     acl = "public-read"
-    policy = "${template_file.html_policy.rendered}"
+    # policy = "${template_file.html_policy.rendered}" // see https://github.com/hashicorp/terraform/issues/3076 parer error
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.root_domain}/*"
+            ]
+        }
+    ]
+}
+EOF
 
     website {
         index_document = "index.html"
