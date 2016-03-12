@@ -18,7 +18,7 @@ resource "aws_lambda_function" "hugo_lambda" {
 }
 
 #output "hugo_lambda_arn" { value = "${aws_lambda_function.hugo_lambda.arn}" } // timeout problem.
-output "hugo_lambda_name" { value = "${var.root_domain}-lambda"}
+output "hugo_lambda_name" { value = "hugo-lambda"}
 
 # Download hugo lambda function
 resource "null_resource" "lambda_download" {
