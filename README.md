@@ -157,6 +157,12 @@ Do you really want to destroy?
   Enter a value: yes
 ```
 
+If you are in Vagrant my-hugo-box:
+```
+$ logout
+$ vagrant destroy
+```
+
 ## <a name="Acknowledgements">Acknowledgements</a>
 * [hugo-aws-lambda-static-website](http://bezdelev.com/post/hugo-aws-lambda-static-website/)
 * [Terraform](http://www.terraform.io/downloads.html)
