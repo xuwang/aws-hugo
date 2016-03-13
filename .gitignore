@@ -7,4 +7,3 @@
 .terraform
 .vagrant
 .zip
-provider.tf
