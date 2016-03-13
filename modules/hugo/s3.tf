@@ -36,7 +36,7 @@ EOF
 
     logging {
         target_bucket = "${aws_s3_bucket.log.id}"
-        target_prefix = "log/${var.root_domain}/"
+        target_prefix = "log/html-bucket/"
     }
 
     tags {
@@ -44,6 +44,7 @@ EOF
     }
 }
 
+/*
 # prepare static site bucket policy 
 resource "template_file" "html_policy" {
     template = "${file("${var.html_policy_tmpl}")}"
@@ -51,6 +52,7 @@ resource "template_file" "html_policy" {
         bucket_name = "${var.root_domain}"
     }
 }
+*/
 
 # output the static html endpoint and domain
 output "html_endpoint" {
@@ -68,7 +70,7 @@ output "html_bucket_id" {
 # Note the input bucket name must be "input.<static_html_bucket_name>"
 # otherwise the lambda code won't be able to find destination bucket
 resource "aws_s3_bucket" "input" {
-    bucket = "input-${aws_s3_bucket.html.id}"
+    bucket = "input.${aws_s3_bucket.html.id}"
     acl = "private"
     force_destroy = true
 
@@ -78,11 +80,11 @@ resource "aws_s3_bucket" "input" {
 
     logging {
         target_bucket = "${aws_s3_bucket.log.id}"
-        target_prefix = "log/input.${aws_s3_bucket.html.id}/"
+        target_prefix = "log/input-bucket/"
     }
 
     tags {
-        Name = "input-${aws_s3_bucket.html.id}"
+        Name = "input.${aws_s3_bucket.html.id}"
     }
 }
 

@@ -50,6 +50,9 @@ resource "aws_s3_bucket" "lambda" {
     bucket = "lambda-${var.root_domain}"
     force_destroy = true
     acl = "private"
+    versioning {
+        enabled = true
+    }
     tags {
         Name = "lambda-${var.root_domain}"
     }
