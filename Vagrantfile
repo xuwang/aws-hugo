@@ -2,9 +2,9 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu-server-vivid"
-  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/vivid/current/vivid-server-cloudimg-amd64-vagrant-disk1.box"
-
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.define vm_name = "my-hugo-box"
+  
   # app ports
   # config.vm.network :forwarded_port, guest: 8080, host: 80, auto_correct: true
   # config.vm.network :forwarded_port, guest: 8443, host: 443, auto_correct: true
@@ -57,8 +57,8 @@ pip install --upgrade awscli s3cmd
 echo installing terraform ...
 mkdir -p /opt/terraform
 pushd /opt/terraform
-wget -nc -q https://dl.bintray.com/mitchellh/terraform/terraform_0.6.3_linux_amd64.zip
-unzip -q terraform_0.6.3_linux_amd64.zip
+wget -nc -q https://releases.hashicorp.com/terraform/0.6.12/terraform_0.6.12_darwin_amd64.zip
+unzip -q terraform_0.6.12_darwin_amd64.zip
 popd
 mkdir -p /etc/profile.d
 echo PATH=$PATH:/opt/terraform > /etc/profile.d/terraform.sh
