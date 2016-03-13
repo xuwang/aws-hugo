@@ -32,10 +32,10 @@ resource "null_resource" "lambda_download" {
     }
 }
 
-/*
+/* Not workinng yet b/c dependency on aws_lambda_function arn. 
 # Give s3 permistions to triger lambda
 resource "aws_lambda_permission" "allow_s3" {
-    statement_id = "${var.root_domain}-allow-s3-trigger"
+    statement_id = "AllowLambdaInvokeFunction"
     action = "lambda:InvokeFunction"
     function_name = "${aws_lambda_function.hugo_lambda.arn}"
     principal = "s3.amazonaws.com"
@@ -44,7 +44,7 @@ resource "aws_lambda_permission" "allow_s3" {
 */
 
 /* 
-# Not working, see https://github.com/hashicorp/terraform/issues/4931
+# Not working.  see https://github.com/hashicorp/terraform/issues/4931
 # s3 bucket for lambda function
 resource "aws_s3_bucket" "lambda" {
     bucket = "lambda-${var.root_domain}"
