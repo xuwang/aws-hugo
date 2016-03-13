@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hello World Hugo Site</title>
+    <link>http://hugo.itlab.stanford.edu/</link>
+    <description>Recent content on Hello World Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 12 Mar 2016 23:49:22 -0800</lastBuildDate>
+    <atom:link href="http://hugo.itlab.stanford.edu/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>_index</title>
+      <link>http://hugo.itlab.stanford.edu/_index/</link>
+      <pubDate>Sat, 12 Mar 2016 23:49:22 -0800</pubDate>
+      
+      <guid>http://hugo.itlab.stanford.edu/_index/</guid>
+      <description>
+
+&lt;h2 id=&#34;hello-world:3976528693a0108357f4928017600865&#34;&gt;Hello World&lt;/h2&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

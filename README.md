@@ -94,15 +94,25 @@ awc cli to create lambda event trigger and s3 bucket invoke policy:
 $ ./set-s3-trigger.sh
 ```
 
-### To test
+### Let's have fun
 
-* Create hugo docs tree and modify config.toml
+* Upload Hugo page content to S3 bucket
+
+There is a _hugo-example_ diretory in this repo, which has a simple "Hello World" website:
+
+        $ cd hugo-example
+
+Edit _config.toml_ so the baseurl matches your root_domain:
 
         baseurl = "http://example.com"
-* Upload hugo page content to the input bucket, named as _input.example.com_.
 
-        $ aws --profile myhugo sync hugo-example/ s3://input.example.com/
-* You should be able to go to the bucket endpoint to see the page.
+Then upload hugo-example directory to the input bucket we created previously:
+
+        $ cd ..
+        $ aws --profile myhugo s3 sync hugo-example/ s3://input.example.com/
+
+* You should be able to go to http://example.com to see the page,like this:
+![Hugo Site](images/hugo-site.png "Hello World Hugo Site")
 
 ### To destroy
 

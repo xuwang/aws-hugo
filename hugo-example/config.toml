@@ -1,0 +1,8 @@
+baseurl = "http://replace-this-with-your-hugo-site.com"
+languageCode = "en-us"
+title = "Hello World Hugo Site"
+theme = "bootie-docs"
+
+[params]
+  mainMenu = ["about", "usage"]
+ 
