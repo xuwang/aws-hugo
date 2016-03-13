@@ -1,12 +1,14 @@
 
 ## Create a Hugo website generator on AWS Lambda with Terraform
 
-This project demonstrates how to use [Terraform](https://www.terraform.io/intro/index.html) to manage AWS resources needed to create Hugo static website using AWS Lambda service. 
+It's all about infrastructure codification. This project demonstrates how to use [Terraform](https://www.terraform.io/intro/index.html) to manage AWS resources needed to create Hugo static website using AWS Lambda service. 
+
 Resources managed are:
 
-* Source, destination and log buckets on AWS, bucket policies, static websites configuration
+* Source, destination and log buckets on AWS, buckets's policies, static website configuration
 * Lambda function, IAM role and policies
 * Lambda S3 trigger
+* Route53 record for static website pointing to the S3 bucket
 
 This tutorial uses content and ideas from a number of open source projects. See [Acknowledgements](#Acknowledgements) for details.
 
@@ -14,7 +16,7 @@ This tutorial uses content and ideas from a number of open source projects. See 
 
 Install the _awscli_, _jq_, _terraform_, and optionally _vagrant_ as described on https://github.com/xuwang/install-tools page.
 
-IAM user assumptions used for this project:
+When setting up AWS credentials in the above steps, use IAM user assumptions for this project:
 
 1. Create a group `myhugo` with `AWSLambdaFullAccess`, `IAMFullAccess`, `AmazonS3FullAccess`, and `AmazonRoute53FullAccess` policy.
 2. Create a user `myhugo` and __Download__ the user credentials.
@@ -43,10 +45,23 @@ First setup parameters for your site. There is only one file you need to customi
 $ cd terraforms
 $ cp provider.tf.tmpl provider.tf
 ```
+Edit `terraforms/provider.tf` to set up AWS region, profile and root domain  for your hugo site, for example:
 
-Edit `terraforms/provider.tf` to set up AWS credentials and other necessary parameters for your hugo site.
+```
+# Customize this to your account configuration.
+provider "aws" {
+  profile = "myhugo"
+  region = "us-west-2"
+}
+variable "hugo_site" {
+    # your static site FQDN
+    default = {
+        root_domain = "example.com"
+   }
+}
+```
 
-Polices for buckets and lambda roles are located under _terraform/artifacts/policies_ directory. The lambda code will be downloaded under _terraform/artifacts_ directory.
+Polices for buckets and lambda function role are located under _terraform/artifacts/policies_ directory. The [lambda code](http://bezdelev.com/post/hugo-aws-lambda-static-website/) will be downloaded under _terraform/artifacts_ directory.
 
 ## Apply Terraforms 
 
@@ -59,22 +74,24 @@ $ terraform plan
 Verify all the resoucre to be created. These are example resouces:
 
 ```
-module.hugo.aws_iam_policy_attachment.hugo_lambda_attach
-module.hugo.aws_iam_role.lambda_role
-module.hugo.aws_iam_role_policy.lambda_policy
-module.hugo.aws_lambda_function.hugo_lambda
-module.hugo.aws_s3_bucket.html
-module.hugo.aws_s3_bucket.input
-module.hugo.aws_s3_bucket.log
-module.hugo.null_resource.lambda_download
-module.hugo.template_file.lambda_policy
++ module.hugo.aws_iam_policy_attachment.hugo_lambda_attach
++ module.hugo.aws_iam_role.lambda_role
++ module.hugo.aws_iam_role_policy.lambda_policy
++ module.hugo.aws_lambda_function.hugo_lambda
++ module.hugo.aws_route53_record.root_domain
++ module.hugo.aws_route53_zone.main
++ module.hugo.aws_s3_bucket.html
++ module.hugo.aws_s3_bucket.input
++ module.hugo.aws_s3_bucket.log
++ module.hugo.null_resource.lambda_download
++ module.hugo.template_file.lambda_policy
 ```
 
 ```
 $ terraform apply
 ...
 ```
-You can verify resources created:
+You can verify Terraform output created:
 
 ```
 $ terraform output -module=hugo
@@ -115,14 +132,21 @@ Then upload hugo-example directory to the input bucket we created previously:
 * You should be able to go to http://example.com to see the page,like this:
 ![Hugo Site](images/hugo-site.png "Hello World Hugo Site")
 
-## Clean up
+  Use your favoriate editor to update files under hugo _content_ directory, upload to S3 input bucket, lambda function will be invoked to re-generate your websites. You can view Lambda function logs as instructed [here] (http://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions-logs.html)
 
-If you no longer need the resources, you can easily wipe out everything you created, including the buckets and contents:
+## Tear down
+
+You can use the setup for production implementation. If you no longer need the resources, you can easily wipe out everything you created, including the buckets and contents:
 
 ```
 $ cd terraform
 $ ./delete-s3-trigger.sh
 $ terraform destroy
+Do you really want to destroy?
+  Terraform will delete all your managed infrastructure.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
 ```
 
 ## <a name="Acknowledgements">Acknowledgements</a>
