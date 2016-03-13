@@ -91,7 +91,15 @@ Verify all the resoucre to be created. These are example resouces:
 $ terraform apply
 ...
 ```
-You can verify Terraform output created:
+
+You may see the following errors:
+```
+1 error(s) occurred:
+aws_lambda_function.hugo_lambda: Error creating Lambda function: timeout while waiting for state to become '[success]'
+```
+This is caused by [terraform issue 4926](issue https://github.com/hashicorp/terraform/issues/4926), but the function actually is created alright. You can ignore this error.
+
+To verify Terraform output created:
 
 ```
 $ terraform output -module=hugo
