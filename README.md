@@ -99,16 +99,14 @@ $ ./set-s3-trigger.sh
 * Create hugo docs tree and modify config.toml
 
         baseurl = "http://example.com"
-
 * Upload hugo page content to the input bucket, named as _input.example.com_.
 
         $ aws --profile myhugo sync hugo-example/ s3://input.example.com/
-
 * You should be able to go to the bucket endpoint to see the page.
 
 ### To destroy
 
-If you nolonger needs the resources, you can easily wipe out everything you created, including the buckets and contents:
+If you no longer need the resources, you can easily wipe out everything you created, including the buckets and contents:
 
 ```
 $ cd terraform
