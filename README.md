@@ -22,7 +22,7 @@ When setting up AWS credentials in the above steps, use IAM user assumptions for
 2. Create a user `myhugo` and __Download__ the user credentials.
 3. Add user `myhugo` to group `myhugo`.
 
-## Clone the repo:
+## Clone the repo
 ```
 $ git clone git@github.com:xuwang/aws-hugo
 $ cd aws-hugo
