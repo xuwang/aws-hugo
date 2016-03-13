@@ -96,16 +96,14 @@ $ ./set-s3-trigger.sh
 
 ### To test
 
-* Create hugo docs tree and modify config.toml like so:
-        ```
+* Create hugo docs tree and modify config.toml
+
         baseurl = "http://example.com"
-        ```
+
 * Upload hugo page content to the input bucket, named as _input.example.com_.
 
-        ```
         $ aws --profile myhugo sync hugo-example/ s3://input.example.com/
-        ```
-        
+
 * You should be able to go to the bucket endpoint to see the page.
 
 ### To destroy
