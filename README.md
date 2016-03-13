@@ -1,5 +1,5 @@
 
-# Create a Hugo website generator on AWS Lambda with Terraform
+## Create a Hugo website generator on AWS Lambda with Terraform
 
 This project demonstrates how to use [Terraform](https://www.terraform.io/intro/index.html) to manage AWS resources needed to create Hugo static website using AWS Lambda service. 
 Resources managed are:
@@ -35,7 +35,7 @@ $ vagrant ssh
 $ cd aws-hugo
 ```
 
-### Customization
+## Customization
 
 First setup parameters for your site. There is only one file you need to customize.
 
@@ -48,7 +48,7 @@ Edit `terraforms/provider.tf` to set up AWS credentials and other necessary para
 
 Polices for buckets and lambda roles are located under _terraform/artifacts/policies_ directory. The lambda code will be downloaded under _terraform/artifacts_ directory.
 
-### Apply Terraforms 
+## Apply Terraforms 
 
 Run plan first to see what resources will be created.  Still under _terraform_ directory:
 
@@ -78,6 +78,7 @@ You can verify resources created:
 
 ```
 $ terraform output -module=hugo
+aws_route53_record_fqdn = example.com
 html_bucket_id = example.com
 html_domain = s3-website-us-west-2.amazonaws.com
 html_endpoint = example.com.s3-website-us-west-2.amazonaws.com
@@ -85,7 +86,7 @@ hugo_lambda_name = hugo-lambda
 input_bucket_id = input.example.com
 ```
 
-### Install S3 event trigger
+## Install S3 event trigger
 
 There are some bugs arouond Terraform lambda resource management. To workaround the issues, let's use
 awc cli to create lambda event trigger and s3 bucket invoke policy:
@@ -94,7 +95,7 @@ awc cli to create lambda event trigger and s3 bucket invoke policy:
 $ ./set-s3-trigger.sh
 ```
 
-### Let's have fun
+## Let's have fun
 
 * Upload Hugo page content to S3 bucket
 
@@ -114,7 +115,7 @@ Then upload hugo-example directory to the input bucket we created previously:
 * You should be able to go to http://example.com to see the page,like this:
 ![Hugo Site](images/hugo-site.png "Hello World Hugo Site")
 
-### To destroy
+## Clean up
 
 If you no longer need the resources, you can easily wipe out everything you created, including the buckets and contents:
 
