@@ -1,7 +1,8 @@
+# Terraform will use ~/.aws/credentials file using the profile specified. 
+# DONOT put credential in this file. It's not in .gitignore in this repo.
 provider "aws" {
-  access_key = "<your_aws_access_key>"
-  secret_key = "<your_aws_secret_key>"
   region = "<your_aws_region>"
+  profile = "<your_hugo_iam_user>"
 }
 
 variable "hugo_site" {
