@@ -1,7 +1,7 @@
 
 ## Create a Hugo website generator on AWS Lambda with Terraform
 
-It's all about infrastructure codification. This project demonstrates how to use [Terraform](https://www.terraform.io/intro/index.html) to manage AWS resources needed to create Hugo static website using AWS Lambda service. 
+This project demonstrates how to use [Terraform](https://www.terraform.io/intro/index.html) to manage AWS resources needed to create Hugo static website using AWS Lambda service. See the excellent blog  [hugo-awslambda-static-website/](http://bezdelev.com/post/hugo-aws-lambda-static-website/) about how does it work. In this project we use Terraform to automate the AWS resource creation. This gives you a repeatable process so you can build and tear down as you wish. 
 
 Resources managed are:
 
