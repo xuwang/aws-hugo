@@ -57,9 +57,9 @@ pip install --upgrade awscli s3cmd
 echo installing terraform ...
 mkdir -p /opt/terraform
 pushd /opt/terraform
-wget -q https://releases.hashicorp.com/terraform/0.6.12/terraform_0.6.12_linux_amd64.zip
-unzip -q terraform_0.6.12_linux_amd64.zip
-wget -q https://github.com/spf13/hugo/releases/download/v0.15/hugo_0.15_amd64.deb
+wget -q https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip
+unzip -q terraform_0.11.3_linux_amd64.zip
+wget -q https://github.com/gohugoio/hugo/releases/download/v0.36.1/hugo_0.36.1_Linux-64bit.deb
 dpkg -i hugo*.deb
 popd
 mkdir -p /etc/profile.d
