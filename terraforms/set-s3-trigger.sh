@@ -4,7 +4,7 @@
 profile='myhugo'
 input_bucket_id=$(terraform output -module=hugo input_bucket_id)
 hugo_lambda_name="$(terraform output -module=hugo hugo_lambda_name)"
-hugo_lambda_arn=$(aws --profile myhugo lambda  list-functions \
+hugo_lambda_arn=$(aws --profile $profile lambda  list-functions \
     | jq -r ".Functions | .[] | select(.FunctionName==\"$hugo_lambda_name\") \
     | .FunctionArn")
 
@@ -22,6 +22,6 @@ read -r -d '' EVENT << EOF
     }]
 }
 EOF
-aws --profile myhugo s3api put-bucket-notification-configuration \
+aws --profile $profile s3api put-bucket-notification-configuration \
         --bucket "$input_bucket_id" \
         --notification-configuration "$EVENT"
